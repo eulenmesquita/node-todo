@@ -41,12 +41,17 @@ app.get('/todos/:id', (req, res) => {
     var id = req.params.id;
     
     if (!ObjectID.isValid(id)) {
+<<<<<<< HEAD
         return res.status(404).send({});
+=======
+        res.status(404).send({});
+>>>>>>> 5022d1a254cf29862271c91ea1be44b428060058
     }
 
     Todo.findById(id)
         .then((todo) => {
             if (todo) {
+<<<<<<< HEAD
                 return res.status(200).send({todo});
             }
             res.status(404).send({});
@@ -55,6 +60,16 @@ app.get('/todos/:id', (req, res) => {
             res.status(400).send({});
         })
     }); 
+=======
+                res.status(200).send({todo});
+            } else {
+                res.status(404).send({});
+            }
+        }, (e) => {
+            res.status(400).send({});
+        });
+});
+>>>>>>> 5022d1a254cf29862271c91ea1be44b428060058
 
 app.listen(3000, () => {
     console.log(`Started on port ${port}`);
