@@ -85,7 +85,7 @@ describe('GET /todos', () => {
 describe('GET /todos/:id', () => {
     it('should get a Todo doc', (done) => {
         request(app)
-            .get(`/todos/${todos[0]._id}`)
+            .get(`/todos/${todos[0]._id.toHexString()}`)
             .expect(200)
             .expect((res) => {
                 expect(res.body.todo.text).toBe(todos[0].text);
@@ -95,21 +95,14 @@ describe('GET /todos/:id', () => {
 
     it('should return 404 if Todo not found', (done) => {
         request(app)
-            .get(`/todos/${new ObjectID()}`)
+            .get(`/todos/${new ObjectID().toHexString()}`)
             .expect(404)
             .end(done);
     });
-    it('should return 404 if Todo not found', (done) => {
+    it('should return 404 when ID is invalid', (done) => {
         request(app)
             .get('/todos/123')
             .expect(404)
             .end(done);
     });
 });
-
-
-describe('nice try', () => {
-    it('should work', (done) => {
-        done();
-    });
- });
