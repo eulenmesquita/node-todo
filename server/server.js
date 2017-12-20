@@ -18,7 +18,6 @@ app.post('/todos', (req, res) => {
 
     todo.save().then( (doc)=> {
         res.status(201).send(doc);
-        console.log('new Todo saved');
     }, (e) => {
         res.status(400).send(e);
     });
@@ -31,9 +30,7 @@ app.get('/todos', (req, res)=> {
         );
     }, (e) => {
         console.log('Error fetching Todo list', e);
-        res
-            .status(400)
-            .send(e);
+        res.status(400).send(e);
     });
 });
 
@@ -45,10 +42,10 @@ app.get('/todos/:id', (req, res) => {
     }
 
     Todo.findById(id).then((todo) => {
-        if (todo) {
-            return res.status(200).send({todo});
+        if (!todo) {
+            return res.status(404).send();
         }
-        res.status(404).send({});
+        res.status(200).send({todo});
     })
     .catch((e) => {
         res.status(400).send({});
