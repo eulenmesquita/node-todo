@@ -103,6 +103,24 @@ userSchema.statics.findByToken = function (token) {
     });
 }
 
+userSchema.statics.findByCredentials = function (email, password) {
+    var User = this;
+
+    return User.findOne({'email':email}).then((user) => {
+        if (!user) {
+            return Promise.reject();
+        }
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(password, user.password, (err, res) => {
+                if (res === true) {
+                    resolve(user);
+                } else {
+                    reject();
+                }
+            });
+        });
+    })
+}
 var User = mongoose.model('Users', userSchema);
 
 module.exports = { User }
